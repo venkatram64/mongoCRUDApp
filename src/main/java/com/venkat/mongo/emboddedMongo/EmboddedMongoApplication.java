@@ -31,5 +31,7 @@ public class EmboddedMongoApplication implements CommandLineRunner {
 		emp1.append("lastName", "Veerareddy");
 		emp1.append("address", "Narayana gude, hyd");
 		empCollection.insertOne(emp1);*/
+
+
 	}
 }
