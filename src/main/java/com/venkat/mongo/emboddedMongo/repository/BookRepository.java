@@ -100,10 +100,13 @@ public class BookRepository {
         for(String field : fields){
             projection.append(field,1);
         }
-        BasicDBObject sort = new BasicDBObject(sortBy, 1);
+        BasicDBObject sort = new BasicDBObject(sortBy, 1); //ascending
 
-        FindIterable<Document> findIterable = collection.find().projection(projection).sort(sort)
-                .skip(pageNo * pageSize).limit(pageSize);
+        FindIterable<Document> findIterable = collection.find()
+                                            .projection(projection)
+                                            .sort(sort)
+                                            .skip(pageNo * pageSize)
+                                            .limit(pageSize);
 
         List<Object> booksResponse = new ArrayList<>();
 
