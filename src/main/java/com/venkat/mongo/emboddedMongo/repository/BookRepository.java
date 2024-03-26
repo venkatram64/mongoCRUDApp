@@ -124,7 +124,7 @@ public class BookRepository {
         return collection.countDocuments();
     }
 
-    public String countPages() {
+    public String countPages() {//aggregation
         MongoClient mc = getMongoClient();
         MongoDatabase database = mc.getDatabase("test");
         MongoCollection<Document> collection = database.getCollection("books");
@@ -142,13 +142,13 @@ public class BookRepository {
         grp.append("count", sum);
         BasicDBObject group = new BasicDBObject("$group", grp);
         logger.info("Group query {}",group.toJson());
-        List<BasicDBObject> pipeline = new ArrayList<>();
+        List<BasicDBObject> pipeline = new ArrayList<>(); //build pipeline
         pipeline.add(group);
         AggregateIterable<Document> aggregateIterable = collection.aggregate(pipeline);
         return aggregateIterable.first().get("count").toString();
     }
 
-    public List<Object> getByCategories(String[] categories) {
+    public List<Object> getByCategories(String[] categories) {//aggregation, by categories
         MongoClient mc = getMongoClient();
         MongoDatabase database = mc.getDatabase("test");
         MongoCollection<Document> collection = database.getCollection("books");
@@ -159,6 +159,7 @@ public class BookRepository {
         BasicDBObject projection = new BasicDBObject();
         projection.append("title", 1);
         projection.append("isbn", 1);
+        projection.append("categories",1);
         FindIterable<Document> findIterable = collection.find(catFilter).projection(projection);
         List<Object> books = new ArrayList<>();
         for(Document doc: findIterable){
